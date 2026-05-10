@@ -1,0 +1,122 @@
+
+<div style="padding:1rem 0; font-family:var(--font-sans);">
+  <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+    <button id="b1" onclick="setStep(1)" style="flex:1;min-width:120px;padding:8px 12px;font-size:13px;border-radius:8px;border:0.5px solid var(--color-border-secondary);cursor:pointer;font-weight:500">① Scatter plot</button>
+    <button id="b2" onclick="setStep(2)" style="flex:1;min-width:120px;padding:8px 12px;font-size:13px;border-radius:8px;border:0.5px solid var(--color-border-secondary);cursor:pointer">② 7 bump functions</button>
+    <button id="b3" onclick="setStep(3)" style="flex:1;min-width:120px;padding:8px 12px;font-size:13px;border-radius:8px;border:0.5px solid var(--color-border-secondary);cursor:pointer">③ Fitted curve</button>
+  </div>
+  <div style="position:relative;width:100%;height:300px;">
+    <canvas id="myChart"></canvas>
+  </div>
+  <div id="expl" style="margin-top:12px;font-size:13px;color:var(--color-text-secondary);padding:12px 16px;border-radius:8px;background:var(--color-background-secondary);line-height:1.6;min-height:56px;"></div>
+  <div id="leg" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--color-text-secondary);"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+var bumpCols = ['#E05F3C','#E8903A','#C8B830','#4CAF7A','#3B8BD4','#7B6EC4','#B85A9E'];
+var centers  = [0.07,0.21,0.36,0.50,0.64,0.79,0.93];
+var SIG = 0.13;
+
+function trueY(x){ return 0.14 + 0.60*Math.exp(-3.6*x); }
+function gauss(x,c){ return Math.exp(-0.5*Math.pow((x-c)/SIG,2)); }
+
+var scatter = [];
+for(var i=0;i<180;i++){
+  var sx = Math.abs(Math.sin(i*7.3+1)); sx = sx-Math.floor(sx);
+  var noise = (Math.abs(Math.sin(i*13.7+3))-0.5)*0.28;
+  var sy = Math.max(0.02,Math.min(0.97, trueY(sx)+noise));
+  scatter.push({x:+sx.toFixed(3), y:+sy.toFixed(3)});
+}
+
+var xGrid = [];
+for(var j=0;j<120;j++) xGrid.push(j/119);
+
+var weights = centers.map(function(c){ return trueY(c); });
+
+function combined(x){
+  var ws=0,bs=0;
+  centers.forEach(function(c,i){ var b=gauss(x,c); ws+=weights[i]*b; bs+=b; });
+  return ws/Math.max(bs,0.001);
+}
+
+var scatterDs = {
+  type:'scatter', label:'Communities',
+  data: scatter,
+  backgroundColor:'rgba(110,110,120,0.20)',
+  pointRadius:3, order:10
+};
+
+var bumpDs = centers.map(function(c,k){
+  return {
+    type:'line', label:'Bump '+(k+1),
+    data: xGrid.map(function(x){ return {x:x, y:gauss(x,c)*0.28}; }),
+    borderColor: bumpCols[k],
+    backgroundColor: bumpCols[k].slice(0,7)+'28',
+    fill:true, borderWidth:2, pointRadius:0, tension:0.4, order:5
+  };
+});
+
+var curveDs = {
+  type:'line', label:'Fitted curve',
+  data: xGrid.map(function(x){ return {x:x, y:+combined(x).toFixed(4)}; }),
+  borderColor:'#2C3E50', backgroundColor:'transparent',
+  borderWidth:3.5, pointRadius:0, tension:0.4, order:1
+};
+
+var isDark = matchMedia('(prefers-color-scheme:dark)').matches;
+if(isDark){ curveDs.borderColor='#e0ddd4'; }
+var gc = isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.06)';
+var tc = isDark?'#777':'#aaa';
+
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx,{
+  data:{ datasets:[scatterDs] },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    animation:{duration:400},
+    scales:{
+      x:{ type:'linear', min:0, max:1,
+          title:{display:true, text:'PctKids2Par  (% two-parent households)', font:{size:12}, color:tc},
+          grid:{color:gc}, ticks:{color:tc, font:{size:11}, callback:function(v){ return Math.round(v*100)+'%'; }} },
+      y:{ type:'linear', min:0, max:0.92,
+          title:{display:true, text:'Crime rate', font:{size:12}, color:tc},
+          grid:{color:gc}, ticks:{color:tc, font:{size:11}, callback:function(v){ return v.toFixed(2); }} }
+    },
+    plugins:{ legend:{display:false}, tooltip:{enabled:false} }
+  }
+});
+
+var expls = [
+  '<strong>Step 1 — Raw scatter.</strong> Each dot is one of the 1,795 communities. As PctKids2Par increases (more two-parent households), the crime rate drops steeply at first, then flattens out. A straight line cannot capture this — we need a curve.',
+  '<strong>Step 2 — Seven bump functions.</strong> We place 7 smooth overlapping bumps evenly along the x-axis. Each bump is active in a local region. The model will learn one weight per bump. Where a bump has a high weight, the fitted curve is pulled up. Where the weight is low, the curve sits lower. The overlapping makes the final curve smooth rather than jagged.',
+  '<strong>Step 3 — Fitted curve.</strong> The dark line is the weighted sum of all 7 bumps, with weights learned by Ridge regression. In the left region (low PctKids2Par), the bumps there have high weights — crime is high. In the right region, bumps have low weights — crime is low and flattening. The curve captures both the steep drop and the saturation that a straight line could not.'
+];
+
+function setStep(s){
+  [1,2,3].forEach(function(i){
+    var btn=document.getElementById('b'+i);
+    var on=i===s;
+    btn.style.background=on?'var(--color-background-info)':'var(--color-background-secondary)';
+    btn.style.color=on?'var(--color-text-info)':'var(--color-text-secondary)';
+    btn.style.fontWeight=on?'500':'400';
+  });
+  document.getElementById('expl').innerHTML=expls[s-1];
+  var leg=document.getElementById('leg');
+  if(s===1){
+    chart.data.datasets=[scatterDs];
+    leg.innerHTML='<span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:50%;background:rgba(110,110,120,0.4);display:inline-block"></span>One community</span>';
+  } else if(s===2){
+    chart.data.datasets=[scatterDs].concat(bumpDs);
+    leg.innerHTML=centers.map(function(c,k){
+      return '<span style="display:flex;align-items:center;gap:4px"><span style="width:18px;height:3px;background:'+bumpCols[k]+';display:inline-block;border-radius:2px"></span>Bump '+(k+1)+'</span>';
+    }).join('');
+  } else {
+    chart.data.datasets=[scatterDs,curveDs];
+    leg.innerHTML='<span style="display:flex;align-items:center;gap:5px"><span style="width:22px;height:3.5px;background:'+curveDs.borderColor+';display:inline-block;border-radius:2px"></span>Fitted curve (sum of 7 weighted bumps)</span>';
+  }
+  chart.update();
+}
+
+setStep(1);
+</script>

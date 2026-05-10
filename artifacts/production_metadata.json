@@ -1,0 +1,294 @@
+{
+  "project": "Communities & Crime \u2014 violent crime regression",
+  "target": "ViolentCrimesPerPop",
+  "feature_count": 122,
+  "training_size": 1795,
+  "test_size": 199,
+  "feature_columns": [
+    "population",
+    "householdsize",
+    "racepctblack",
+    "racePctWhite",
+    "racePctAsian",
+    "racePctHisp",
+    "agePct12t21",
+    "agePct12t29",
+    "agePct16t24",
+    "agePct65up",
+    "numbUrban",
+    "pctUrban",
+    "medIncome",
+    "pctWWage",
+    "pctWFarmSelf",
+    "pctWInvInc",
+    "pctWSocSec",
+    "pctWPubAsst",
+    "pctWRetire",
+    "medFamInc",
+    "perCapInc",
+    "whitePerCap",
+    "blackPerCap",
+    "indianPerCap",
+    "AsianPerCap",
+    "OtherPerCap",
+    "HispPerCap",
+    "NumUnderPov",
+    "PctPopUnderPov",
+    "PctLess9thGrade",
+    "PctNotHSGrad",
+    "PctBSorMore",
+    "PctUnemployed",
+    "PctEmploy",
+    "PctEmplManu",
+    "PctEmplProfServ",
+    "PctOccupManu",
+    "PctOccupMgmtProf",
+    "MalePctDivorce",
+    "MalePctNevMarr",
+    "FemalePctDiv",
+    "TotalPctDiv",
+    "PersPerFam",
+    "PctFam2Par",
+    "PctKids2Par",
+    "PctYoungKids2Par",
+    "PctTeen2Par",
+    "PctWorkMomYoungKids",
+    "PctWorkMom",
+    "NumIlleg",
+    "PctIlleg",
+    "NumImmig",
+    "PctImmigRecent",
+    "PctImmigRec5",
+    "PctImmigRec8",
+    "PctImmigRec10",
+    "PctRecentImmig",
+    "PctRecImmig5",
+    "PctRecImmig8",
+    "PctRecImmig10",
+    "PctSpeakEnglOnly",
+    "PctNotSpeakEnglWell",
+    "PctLargHouseFam",
+    "PctLargHouseOccup",
+    "PersPerOccupHous",
+    "PersPerOwnOccHous",
+    "PersPerRentOccHous",
+    "PctPersOwnOccup",
+    "PctPersDenseHous",
+    "PctHousLess3BR",
+    "MedNumBR",
+    "HousVacant",
+    "PctHousOccup",
+    "PctHousOwnOcc",
+    "PctVacantBoarded",
+    "PctVacMore6Mos",
+    "MedYrHousBuilt",
+    "PctHousNoPhone",
+    "PctWOFullPlumb",
+    "OwnOccLowQuart",
+    "OwnOccMedVal",
+    "OwnOccHiQuart",
+    "RentLowQ",
+    "RentMedian",
+    "RentHighQ",
+    "MedRent",
+    "MedRentPctHousInc",
+    "MedOwnCostPctInc",
+    "MedOwnCostPctIncNoMtg",
+    "NumInShelters",
+    "NumStreet",
+    "PctForeignBorn",
+    "PctBornSameState",
+    "PctSameHouse85",
+    "PctSameCity85",
+    "PctSameState85",
+    "LemasSwornFT",
+    "LemasSwFTPerPop",
+    "LemasSwFTFieldOps",
+    "LemasSwFTFieldPerPop",
+    "LemasTotalReq",
+    "LemasTotReqPerPop",
+    "PolicReqPerOffic",
+    "PolicPerPop",
+    "RacialMatchCommPol",
+    "PctPolicWhite",
+    "PctPolicBlack",
+    "PctPolicHisp",
+    "PctPolicAsian",
+    "PctPolicMinor",
+    "OfficAssgnDrugUnits",
+    "NumKindsDrugsSeiz",
+    "PolicAveOTWorked",
+    "LandArea",
+    "PopDens",
+    "PctUsePubTrans",
+    "PolicCars",
+    "PolicOperBudg",
+    "LemasPctPolicOnPatr",
+    "LemasGangUnitDeploy",
+    "LemasPctOfficDrugUn",
+    "PolicBudgPerPop"
+  ],
+  "lemas_columns": [
+    "LemasSwornFT",
+    "LemasSwFTPerPop",
+    "LemasSwFTFieldOps",
+    "LemasSwFTFieldPerPop",
+    "LemasTotalReq",
+    "LemasTotReqPerPop",
+    "PolicReqPerOffic",
+    "PolicPerPop",
+    "RacialMatchCommPol",
+    "PctPolicWhite",
+    "PctPolicBlack",
+    "PctPolicHisp",
+    "PctPolicAsian",
+    "PctPolicMinor",
+    "OfficAssgnDrugUnits",
+    "NumKindsDrugsSeiz",
+    "PolicAveOTWorked",
+    "PolicCars",
+    "PolicOperBudg",
+    "LemasPctPolicOnPatr",
+    "LemasGangUnitDeploy",
+    "PolicBudgPerPop"
+  ],
+  "race_columns": [
+    "racepctblack",
+    "racePctWhite",
+    "racePctAsian",
+    "racePctHisp"
+  ],
+  "top_25_features": [
+    {
+      "feature": "PctKids2Par",
+      "importance_mean": 0.069679810853619
+    },
+    {
+      "feature": "PctIlleg",
+      "importance_mean": 0.0646105931985877
+    },
+    {
+      "feature": "racepctblack",
+      "importance_mean": 0.0475637699034725
+    },
+    {
+      "feature": "racePctWhite",
+      "importance_mean": 0.043085596162312
+    },
+    {
+      "feature": "PctFam2Par",
+      "importance_mean": 0.0302457593685419
+    },
+    {
+      "feature": "PctVacantBoarded",
+      "importance_mean": 0.0190344425765897
+    },
+    {
+      "feature": "PctYoungKids2Par",
+      "importance_mean": 0.0188641632448355
+    },
+    {
+      "feature": "pctWInvInc",
+      "importance_mean": 0.017846129733261
+    },
+    {
+      "feature": "MalePctDivorce",
+      "importance_mean": 0.0136539006887693
+    },
+    {
+      "feature": "pctUrban",
+      "importance_mean": 0.0135984130526218
+    },
+    {
+      "feature": "PctPersDenseHous",
+      "importance_mean": 0.0135274274575378
+    },
+    {
+      "feature": "TotalPctDiv",
+      "importance_mean": 0.0121353559826298
+    },
+    {
+      "feature": "pctWPubAsst",
+      "importance_mean": 0.0121340260189628
+    },
+    {
+      "feature": "PctHousOccup",
+      "importance_mean": 0.0117373974898743
+    },
+    {
+      "feature": "FemalePctDiv",
+      "importance_mean": 0.0114260446329864
+    },
+    {
+      "feature": "PctPopUnderPov",
+      "importance_mean": 0.0113836844211855
+    },
+    {
+      "feature": "MedYrHousBuilt",
+      "importance_mean": 0.0111676970256622
+    },
+    {
+      "feature": "PctTeen2Par",
+      "importance_mean": 0.0110579703186079
+    },
+    {
+      "feature": "PctHousNoPhone",
+      "importance_mean": 0.0109695279525606
+    },
+    {
+      "feature": "AsianPerCap",
+      "importance_mean": 0.0104762713194747
+    },
+    {
+      "feature": "PctWorkMom",
+      "importance_mean": 0.0101222739559083
+    },
+    {
+      "feature": "MedOwnCostPctIncNoMtg",
+      "importance_mean": 0.009523132422692
+    },
+    {
+      "feature": "PctEmplManu",
+      "importance_mean": 0.0094558248324588
+    },
+    {
+      "feature": "NumIlleg",
+      "importance_mean": 0.0094092754782164
+    },
+    {
+      "feature": "PctVacMore6Mos",
+      "importance_mean": 0.0092460068353185
+    }
+  ],
+  "q4_threshold_racepctblack": 0.23,
+  "cqr": {
+    "alpha": 0.1,
+    "target_coverage": 0.9,
+    "correction": 0.05121829171912741,
+    "dev_oof_coverage": 0.886,
+    "test_coverage": 0.925,
+    "mean_width": 0.367
+  },
+  "test_results": {
+    "stack_R2": 0.6409,
+    "stack_MAE": 0.0849,
+    "stack_RMSE": 0.1248,
+    "spline_R2": 0.6396,
+    "spline_MAE": 0.0872,
+    "q4_R2": 0.3248,
+    "q4_MAE": 0.1536,
+    "notq4_R2": 0.6515,
+    "notq4_MAE": 0.0618,
+    "q4_mae_ratio": 2.49
+  },
+  "caveats": [
+    "Model is for academic analysis only \u2014 not deployment-ready for any decision affecting individuals or communities.",
+    "Predictions are associative, not causal. Counterfactual scenarios describe what the model predicts, not what would happen under intervention.",
+    "Q4 communities (top quartile of racepctblack, threshold = 0.230) have 2.49x higher MAE than not-Q4 on held-out test data.",
+    "LEMAS variables are present in input but the model does not meaningfully use their values \u2014 only the binary 'has any LEMAS data' indicator carries signal.",
+    "Race variables (racepctblack, racePctWhite, racePctAsian, racePctHisp) provide moderate (0.0066 R\u00b2) lift on dev. A no-race sensitivity model is also saved for comparison.",
+    "The dataset is from 1990-1995 US data and reflects historical patterns of segregation, concentrated poverty, and differential public investment that confound the race coefficients."
+  ],
+  "recommended_live_model": "production_spline.joblib",
+  "reasoning_for_recommendation": "Spline-Ridge matches the stacked ensemble within 0.0013 R\u00b2 on test, with ~150x smaller pickle and ~100x faster prediction. Stack does not transfer its dev advantage to test."
+}
